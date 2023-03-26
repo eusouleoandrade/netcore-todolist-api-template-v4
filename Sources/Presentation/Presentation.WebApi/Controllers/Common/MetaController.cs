@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.WebApi.Controllers.Common
 {
     [ExcludeFromCodeCoverage]
-    public class MetaController : BaseApiController
+    [ApiController]
+    [Route("api/v{version:apiVersion}")]
+    public class MetaController : ControllerBase
     {
-        [HttpGet("/info")]
+        [HttpGet("info")]
         public ActionResult<string> Info()
         {
             var assembly = typeof(Program).Assembly;
