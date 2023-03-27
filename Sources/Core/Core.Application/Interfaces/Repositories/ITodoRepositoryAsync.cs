@@ -7,5 +7,7 @@ namespace Core.Application.Interfaces.Repositories
         Task<Todo?> CreateAsync(Todo entity);
 
         Task<IEnumerable<Todo>> GetAllPaginatedAsync(int pageSize, int pageNumber);
+
+        Task<int> GetTotalRecordsAsync();
     }
 }

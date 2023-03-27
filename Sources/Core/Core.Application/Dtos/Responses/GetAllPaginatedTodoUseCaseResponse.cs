@@ -7,12 +7,15 @@ namespace Core.Application.Dtos.Responses
 
         public int PageSize { get; private set; }
 
+        public int TotalRecords { get; set; }
+
         public IReadOnlyList<TodoUseCaseResponse> TodosUseCaseResponse { get; private set; }
 
-        public GetAllPaginatedTodoUseCaseResponse(int pageNumber, int pageSize, IReadOnlyList<TodoUseCaseResponse> todosUseCaseResponse)
+        public GetAllPaginatedTodoUseCaseResponse(int pageNumber, int pageSize, int totalRecords, IReadOnlyList<TodoUseCaseResponse> todosUseCaseResponse)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
+            TotalRecords = totalRecords;
             TodosUseCaseResponse = todosUseCaseResponse;
         }
     }

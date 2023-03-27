@@ -30,12 +30,15 @@ namespace Core.Application.UseCases
             var requestProcessed = ProcessRequest(request);
 
             var entities = await _todoRepositoryAsync.GetAllPaginatedAsync(requestProcessed.PageSize, requestProcessed.PageNumber);
+            
+            int totalRecords = await _todoRepositoryAsync.GetTotalRecordsAsync();
 
             _logger.LogInformation("Finishes successfully useCase {0} > method {1}.", nameof(GetAllPaginatedTodoUseCase), nameof(RunAsync));
 
             return new GetAllPaginatedTodoUseCaseResponse(
                 requestProcessed.PageNumber
                 , requestProcessed.PageSize
+                , totalRecords
                 , _mapper.Map<IReadOnlyList<TodoUseCaseResponse>>(entities));
         }
 

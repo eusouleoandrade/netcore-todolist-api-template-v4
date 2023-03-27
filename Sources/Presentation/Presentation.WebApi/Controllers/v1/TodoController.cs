@@ -46,10 +46,12 @@ namespace Presentation.WebApi.Controllers.v1
 
             _logger.LogInformation("Finishes successfully controller {0} > method GetAllPaginated.", nameof(TodoController));
 
+            // TODO: Usar o auto mapper para efetuar o mapper do UseCaseResponse > PagedResponse
             return Ok(new PagedResponse<IReadOnlyList<TodoQuery>>(
                 _mapper.Map<IReadOnlyList<TodoQuery>>(useCaseResponse.TodosUseCaseResponse)
                 , useCaseResponse.PageNumber
-                , useCaseResponse.PageSize));
+                , useCaseResponse.PageSize
+                , useCaseResponse.TotalRecords));
         }
 
         /// <summary>

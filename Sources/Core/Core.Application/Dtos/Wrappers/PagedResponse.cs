@@ -21,11 +21,12 @@ namespace Core.Application.Dtos.Wrappers
 
         public Uri? PreviousPage { get; set; }
 
-        public PagedResponse(TData data, int pageNumber, int pageSize)
+        public PagedResponse(TData data, int pageNumber, int pageSize, int totalRecords)
             : base(data, succeeded: true, message: null, errors: null)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
+            TotalRecords = totalRecords;
         }
     }
 }

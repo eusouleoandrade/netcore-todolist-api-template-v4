@@ -51,6 +51,12 @@ namespace Infra.Persistence.Repositories
             }
         }
 
+        // TODO: Criar um método para retornar o Count para usar no TotalRecords
+        public async Task<int> GetTotalRecordsAsync()
+        {
+            return await Task.FromResult<int>(200);
+        }
+
         public async Task<IEnumerable<Todo>> GetAllPaginatedAsync(int pageSize, int pageNumber)
         {
             try
