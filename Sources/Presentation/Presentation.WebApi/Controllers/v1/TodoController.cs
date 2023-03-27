@@ -29,17 +29,18 @@ namespace Presentation.WebApi.Controllers.v1
         /// Get todos
         /// </summary>
         /// <param name="getAllPaginatedTodoUseCase"></param>
-        /// <param name="request"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResponse<List<TodoQuery>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
-        public async Task<IActionResult> Get([FromServices] IGetAllPaginatedTodoUseCase getAllPaginatedTodoUseCase, [FromQuery] GetAllPaginatedTodoRequest request)
+        public async Task<IActionResult> Get([FromServices] IGetAllPaginatedTodoUseCase getAllPaginatedTodoUseCase, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             _logger.LogInformation(message: "Start controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            var useCaseRequest = _mapper.Map<GetAllPaginatedTodoUseCaseRequest>(request);
+            var useCaseRequest = new GetAllPaginatedTodoUseCaseRequest(pageNumber, pageSize);
 
             var useCaseResponse = await getAllPaginatedTodoUseCase.RunAsync(useCaseRequest);
 
