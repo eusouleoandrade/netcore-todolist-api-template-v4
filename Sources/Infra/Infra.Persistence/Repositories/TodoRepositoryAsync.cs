@@ -50,5 +50,36 @@ namespace Infra.Persistence.Repositories
                 throw new AppException(Msg.DATA_BASE_SERVER_ERROR_TXT, ex);
             }
         }
+
+        public async Task<IEnumerable<Todo>> GetAllPaginatedAsync(int pageSize, int pageNumber)
+        {
+            try
+            {
+                _logger.LogInformation(message: "Start repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetAllPaginatedAsync));
+
+                string query = @"SELECT Id, Title, Done 
+                                FROM Todo 
+                                ORDER BY Id DESC 
+                                LIMIT @PageSize 
+                                OFFSET @Offset";
+
+                var offset = (pageNumber - 1) * pageSize;
+
+                var entities = await _connection.QueryAsync<Todo>(query,
+                new
+                {
+                    PageSize = pageSize,
+                    Offset = offset
+                });
+
+                _logger.LogInformation("Finishes successfully repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetAllPaginatedAsync));
+
+                return entities;
+            }
+            catch (Exception ex)
+            {
+                throw new AppException(Msg.DATA_BASE_SERVER_ERROR_TXT, ex);
+            }
+        }
     }
 }

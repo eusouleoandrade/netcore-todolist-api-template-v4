@@ -23,6 +23,8 @@ namespace Core.Application.Mappings
             CreateMap<Todo, TodoUseCaseResponse>().ReverseMap();
 
             CreateMap<UpdateTodoRequest, UpdateTodoUseCaseRequest>();
+
+            CreateMap<GetAllPaginatedTodoRequest, GetAllPaginatedTodoUseCaseRequest>();
         }
     }
 }

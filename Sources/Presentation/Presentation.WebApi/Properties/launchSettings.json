@@ -12,7 +12,7 @@
     "Presentation.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7293;http://localhost:5072",
+      "applicationUrl": "https://localhost:7294;http://localhost:5073",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

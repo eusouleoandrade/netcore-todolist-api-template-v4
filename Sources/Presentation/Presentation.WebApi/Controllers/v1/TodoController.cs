@@ -28,23 +28,27 @@ namespace Presentation.WebApi.Controllers.v1
         /// <summary>
         /// Get todos
         /// </summary>
-        /// <param name="getAllTodoUseCase"></param>
+        /// <param name="getAllPaginatedTodoUseCase"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<List<TodoQuery>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResponse<List<TodoQuery>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
-        public async Task<IActionResult> Get([FromServices] IGetAllTodoUseCase getAllTodoUseCase)
+        public async Task<IActionResult> Get([FromServices] IGetAllPaginatedTodoUseCase getAllPaginatedTodoUseCase, [FromQuery] GetAllPaginatedTodoRequest request)
         {
-            _logger.LogInformation(message: "Start controller {0} > method GetAll.", nameof(TodoController));
+            _logger.LogInformation(message: "Start controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            var useCaseResponse = await getAllTodoUseCase.RunAsync();
+            var useCaseRequest = _mapper.Map<GetAllPaginatedTodoUseCaseRequest>(request);
 
-            var response = _mapper.Map<IReadOnlyList<TodoQuery>>(useCaseResponse);
+            var useCaseResponse = await getAllPaginatedTodoUseCase.RunAsync(useCaseRequest);
 
-            _logger.LogInformation("Finishes successfully controller {0} > method GetAll.", nameof(TodoController));
+            _logger.LogInformation("Finishes successfully controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            return Ok(new Response<IReadOnlyList<TodoQuery>>(response, true));
+            return Ok(new PagedResponse<IReadOnlyList<TodoQuery>>(
+                _mapper.Map<IReadOnlyList<TodoQuery>>(useCaseResponse.TodosUseCaseResponse)
+                , useCaseResponse.PageNumber
+                , useCaseResponse.PageSize));
         }
 
         /// <summary>
