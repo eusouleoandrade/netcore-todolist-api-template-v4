@@ -51,10 +51,27 @@ namespace Infra.Persistence.Repositories
             }
         }
 
-        // TODO: Criar um método para retornar o Count para usar no TotalRecords
         public async Task<int> GetTotalRecordsAsync()
         {
-            return await Task.FromResult<int>(200);
+            try
+            {
+                _logger.LogInformation(
+                    message: "Start repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetTotalRecordsAsync));
+
+                string query = @"SELECT COUNT(Id)
+                                    FROM Todo";
+
+                int totalRecords = await _connection.ExecuteScalarAsync<int>(query);
+
+                _logger.LogInformation(
+                    "Finishes successfully repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetAllPaginatedAsync));
+
+                return totalRecords;
+            }
+            catch (Exception ex)
+            {
+                throw new AppException(Msg.DATA_BASE_SERVER_ERROR_TXT, ex);
+            }
         }
 
         public async Task<IEnumerable<Todo>> GetAllPaginatedAsync(int pageSize, int pageNumber)
