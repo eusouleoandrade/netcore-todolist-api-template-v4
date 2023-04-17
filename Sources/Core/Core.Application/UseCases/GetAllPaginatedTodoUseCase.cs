@@ -45,9 +45,11 @@ namespace Core.Application.UseCases
         private GetAllPaginatedTodoUseCaseRequest ProcessRequest(GetAllPaginatedTodoUseCaseRequest request)
         {
             int maxPageSize = int.Parse(_configuration.GetSection("PaginationSettings:MaxPageSize").Value);
+            int defaultPageSize = int.Parse(_configuration.GetSection("PaginationSettings:MaxPageSize").Value);
 
             int pageNumber = request.PageNumber <= decimal.Zero ? 1 : request.PageNumber;
             int pageSize = request.PageSize > maxPageSize ? maxPageSize : request.PageSize;
+            pageSize = pageSize ==  decimal.Zero ? defaultPageSize : pageSize;
 
             return new GetAllPaginatedTodoUseCaseRequest(pageNumber, pageSize);
         }
