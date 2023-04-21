@@ -15,7 +15,7 @@ namespace Core.Application.Ioc
                 throw new ArgumentNullException(nameof(services));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<IGetAllPaginatedTodoUseCase, GetAllPaginatedTodoUseCase>();
+            services.AddScoped<IGetAllTodoPaginatedUseCase, GetAllTodoPaginatedUseCase>();
             services.AddScoped<ICreateTodoUseCase, CreateTodoUseCase>();
             services.AddScoped<IDeleteTodoUseCase, DeleteTodoUseCase>();
             services.AddScoped<IGetTodoUseCase, GetTodoUseCase>();
