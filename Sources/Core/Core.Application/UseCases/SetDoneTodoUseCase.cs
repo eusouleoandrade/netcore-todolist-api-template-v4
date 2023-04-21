@@ -34,6 +34,12 @@ namespace Core.Application.UseCases
                 return default;
             }
 
+            if (getTodoUseCaseResponse is null)
+            {
+                AddErrorNotification(Msg.DATA_OF_X0_X1_NOT_FOUND_COD, Msg.DATA_OF_X0_X1_NOT_FOUND_TXT.ToFormat("Todo", request.Id));
+                return default;
+            }
+
             var todo = new Todo(getTodoUseCaseResponse.Id, getTodoUseCaseResponse.Title, request.Done);
 
             var updated = await _genericRepositoryAsync.UpdateAsync(todo);
