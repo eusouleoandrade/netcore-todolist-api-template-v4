@@ -19,7 +19,7 @@ namespace Core.Application.UseCases
         {
             _mapper = mapper;
             _todoRepositoryAsync = todoRepositoryAsync;
-            _logger = logger;
+            _logger = logger; 
         }
 
         public async Task<TodoUseCaseResponse?> RunAsync(CreateTodoUseCaseRequest request)

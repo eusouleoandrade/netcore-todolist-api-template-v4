@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
+using Core.Application.Dtos.Filters;
 using Core.Application.Dtos.Queries;
 using Core.Application.Dtos.Requests;
 using Core.Application.Dtos.Wrappers;
@@ -26,34 +27,35 @@ namespace Presentation.WebApi.Controllers.v1
         }
 
         /// <summary>
-        /// Get todos
+        /// Get todos paginated
         /// </summary>
-        /// <param name="getAllPaginatedTodoUseCase"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="getAllTodoPaginatedUseCase"></param>
+        /// <param name="uriService"></param>
+        /// <param name="filter"></param>
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResponse<List<TodoQuery>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
-        public async Task<IActionResult> Get([FromServices] IGetAllPaginatedTodoUseCase getAllPaginatedTodoUseCase, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> Get(
+            [FromServices] IGetAllTodoPaginatedUseCase getAllTodoPaginatedUseCase,
+            [FromQuery] PaginationFilter filter)
         {
             _logger.LogInformation(message: "Start controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            var useCaseRequest = new GetAllPaginatedTodoUseCaseRequest(pageNumber, pageSize);
+            var paginationUseCaseRequest = new PaginationUseCaseRequest(filter.PageNumber, filter.PageSize);
 
-            var useCaseResponse = await getAllPaginatedTodoUseCase.RunAsync(useCaseRequest);
-
-            var response = new PagedResponse<IReadOnlyList<TodoQuery>>(
-                _mapper.Map<IReadOnlyList<TodoQuery>>(useCaseResponse.TodosUseCaseResponse)
-                , useCaseResponse.PageNumber
-                , useCaseResponse.PageSize
-                , useCaseResponse.TotalRecords);
+            var useCaseResponse = await getAllTodoPaginatedUseCase.RunAsync(paginationUseCaseRequest);
 
             _logger.LogInformation("Finishes successfully controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            return Ok(response);
-        }       
+            return Ok(new PagedResponse<IReadOnlyList<TodoQuery>>(
+                _mapper.Map<IReadOnlyList<TodoQuery>>(useCaseResponse.TodoListUseCaseResponse)
+                , useCaseResponse.PageNumber
+                , useCaseResponse.PageSize
+                , useCaseResponse.TotalPages
+                , useCaseResponse.TotalRecords));
+        }
 
         /// <summary>
         /// Create todo
