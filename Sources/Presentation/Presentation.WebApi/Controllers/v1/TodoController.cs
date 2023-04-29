@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
-using Core.Application.Dtos.Filters;
 using Core.Application.Dtos.Queries;
 using Core.Application.Dtos.Requests;
 using Core.Application.Dtos.Wrappers;
@@ -25,25 +24,26 @@ namespace Presentation.WebApi.Controllers.v1
             _notificationContext = notificationContext;
             _logger = logger;
         }
-
+        
         /// <summary>
         /// Get todos paginated
         /// </summary>
         /// <param name="getAllTodoPaginatedUseCase"></param>
-        /// <param name="uriService"></param>
-        /// <param name="filter"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResponse<List<TodoQuery>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
         public async Task<IActionResult> Get(
-            [FromServices] IGetAllTodoPaginatedUseCase getAllTodoPaginatedUseCase,
-            [FromQuery] PaginationFilter filter)
+            [FromServices] IGetAllTodoPaginatedUseCase getAllTodoPaginatedUseCase
+            , [FromQuery(Name = "page_number")] int pageNumber
+            , [FromQuery(Name = "page_size")] int pageSize)
         {
             _logger.LogInformation(message: "Start controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            var paginationUseCaseRequest = new PaginationUseCaseRequest(filter.PageNumber, filter.PageSize);
+            var paginationUseCaseRequest = new PaginationUseCaseRequest(pageNumber, pageSize);
 
             var useCaseResponse = await getAllTodoPaginatedUseCase.RunAsync(paginationUseCaseRequest);
 
