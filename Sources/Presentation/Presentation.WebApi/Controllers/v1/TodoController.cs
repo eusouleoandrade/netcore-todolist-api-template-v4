@@ -66,6 +66,7 @@ namespace Presentation.WebApi.Controllers.v1
                 , useCaseResponse.PageSize
                 , useCaseResponse.TotalPages
                 , useCaseResponse.TotalRecords));
+                
         }
 
         /// <summary>
