@@ -17,12 +17,18 @@ namespace Presentation.WebApi.Controllers.v1
         private readonly IMapper _mapper;
         private readonly NotificationContext _notificationContext;
         private readonly ILogger<TodoController> _logger;
+        private readonly IConfiguration _config;
 
-        public TodoController(IMapper mapper, NotificationContext notificationContext, ILogger<TodoController> logger)
+        public TodoController(
+            IMapper mapper
+            , NotificationContext notificationContext
+            , ILogger<TodoController> logger
+            , IConfiguration config)
         {
             _mapper = mapper;
             _notificationContext = notificationContext;
             _logger = logger;
+            _config = config;
         }
         
         /// <summary>
@@ -43,7 +49,12 @@ namespace Presentation.WebApi.Controllers.v1
         {
             _logger.LogInformation(message: "Start controller {0} > method GetAllPaginated.", nameof(TodoController));
 
-            var paginationUseCaseRequest = new PaginationUseCaseRequest(pageNumber, pageSize);
+            var paginationUseCaseRequest = new PaginationUseCaseRequest(
+                pageNumber
+                , pageSize
+                , _config.GetValue<int>("PaginationSettings:MaxPageSize")
+                , _config.GetValue<int>("PaginationSettings:DefaultPageSize")
+                , _config.GetValue<int>("PaginationSettings:DefaultPageSize"));
 
             var useCaseResponse = await getAllTodoPaginatedUseCase.RunAsync(paginationUseCaseRequest);
 
@@ -55,6 +66,7 @@ namespace Presentation.WebApi.Controllers.v1
                 , useCaseResponse.PageSize
                 , useCaseResponse.TotalPages
                 , useCaseResponse.TotalRecords));
+                
         }
 
         /// <summary>
