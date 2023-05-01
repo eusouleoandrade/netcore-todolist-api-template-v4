@@ -1,7 +1,7 @@
 
 namespace Core.Application.Dtos.Responses
 {
-    public class GetAllTodoPaginatedUseCaseResponse
+    public class GetPaginatedTodoListsUseCaseResponse
     {
         public int PageNumber { get; private set; }
         public int PageSize { get; private set; }
@@ -9,7 +9,7 @@ namespace Core.Application.Dtos.Responses
         public int TotalRecords { get; private set; }
         public IReadOnlyList<TodoUseCaseResponse> TodoListUseCaseResponse { get; private set; }
 
-        public GetAllTodoPaginatedUseCaseResponse(
+        public GetPaginatedTodoListsUseCaseResponse(
             int pageNumber
             , int pageSize
             , int totalPages

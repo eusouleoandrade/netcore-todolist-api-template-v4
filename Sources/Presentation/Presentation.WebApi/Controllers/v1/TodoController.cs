@@ -34,7 +34,7 @@ namespace Presentation.WebApi.Controllers.v1
         /// <summary>
         /// Get todos paginated
         /// </summary>
-        /// <param name="getAllTodoPaginatedUseCase"></param>
+        /// <param name="getPaginatedTodoListsUseCase"></param>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
@@ -43,11 +43,11 @@ namespace Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
         public async Task<IActionResult> Get(
-            [FromServices] IGetAllTodoPaginatedUseCase getAllTodoPaginatedUseCase
+            [FromServices] IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase
             , [FromQuery(Name = "page_number")] int pageNumber
             , [FromQuery(Name = "page_size")] int pageSize)
         {
-            _logger.LogInformation(message: "Start controller {0} > method GetAllPaginated.", nameof(TodoController));
+            _logger.LogInformation(message: "Start controller {0} > method GetPaginatedTodoLists.", nameof(TodoController));
 
             var paginationUseCaseRequest = new PaginationUseCaseRequest(
                 pageNumber
@@ -56,9 +56,9 @@ namespace Presentation.WebApi.Controllers.v1
                 , _config.GetValue<int>("PaginationSettings:DefaultPageSize")
                 , _config.GetValue<int>("PaginationSettings:DefaultPageSize"));
 
-            var useCaseResponse = await getAllTodoPaginatedUseCase.RunAsync(paginationUseCaseRequest);
+            var useCaseResponse = await getPaginatedTodoListsUseCase.RunAsync(paginationUseCaseRequest);
 
-            _logger.LogInformation("Finishes successfully controller {0} > method GetAllPaginated.", nameof(TodoController));
+            _logger.LogInformation("Finishes successfully controller {0} > method GetPaginatedTodoLists.", nameof(TodoController));
 
             return Ok(new PagedResponse<IReadOnlyList<TodoQuery>>(
                 _mapper.Map<IReadOnlyList<TodoQuery>>(useCaseResponse.TodoListUseCaseResponse)
@@ -66,7 +66,6 @@ namespace Presentation.WebApi.Controllers.v1
                 , useCaseResponse.PageSize
                 , useCaseResponse.TotalPages
                 , useCaseResponse.TotalRecords));
-                
         }
 
         /// <summary>

@@ -7,32 +7,32 @@ using Core.Application.Dtos.Requests;
 
 namespace Core.Application.UseCases
 {
-    public class GetAllTodoPaginatedUseCase : IGetAllTodoPaginatedUseCase
+    public class GetPaginatedTodoListsUseCase : IGetPaginatedTodoListsUseCase
     {
         private readonly ITodoRepositoryAsync _todoRepositoryAsync;
         private readonly IMapper _mapper;
-        private readonly ILogger<GetAllTodoPaginatedUseCase> _logger;
+        private readonly ILogger<GetPaginatedTodoListsUseCase> _logger;
 
-        public GetAllTodoPaginatedUseCase(ITodoRepositoryAsync todoRepositoryAsync, IMapper mapper, ILogger<GetAllTodoPaginatedUseCase> logger)
+        public GetPaginatedTodoListsUseCase(ITodoRepositoryAsync todoRepositoryAsync, IMapper mapper, ILogger<GetPaginatedTodoListsUseCase> logger)
         {
             _todoRepositoryAsync = todoRepositoryAsync;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task<GetAllTodoPaginatedUseCaseResponse> RunAsync(PaginationUseCaseRequest request)
+        public async Task<GetPaginatedTodoListsUseCaseResponse> RunAsync(PaginationUseCaseRequest request)
         {
-            _logger.LogInformation(message: "Start useCase {0} > method {1}.", nameof(GetAllTodoPaginatedUseCase), nameof(RunAsync));
+            _logger.LogInformation(message: "Start useCase {0} > method {1}.", nameof(GetPaginatedTodoListsUseCase), nameof(RunAsync));
 
-            var entities = await _todoRepositoryAsync.GetAllPaginatedAsync(request.PageSize, request.PageNumber);
+            var entities = await _todoRepositoryAsync.GetPaginatedTodoListsAsync(request.PageSize, request.PageNumber);
             
             int totalRecords = await _todoRepositoryAsync.GetTotalRecordsAsync();
 
             int totalPages = CalculateTotalPages(totalRecords, request.PageSize);
 
-            _logger.LogInformation("Finishes successfully useCase {0} > method {1}.", nameof(GetAllTodoPaginatedUseCase), nameof(RunAsync));
+            _logger.LogInformation("Finishes successfully useCase {0} > method {1}.", nameof(GetPaginatedTodoListsUseCase), nameof(RunAsync));
 
-            return new GetAllTodoPaginatedUseCaseResponse(
+            return new GetPaginatedTodoListsUseCaseResponse(
                 request.PageNumber
                 , request.PageSize
                 , totalPages
