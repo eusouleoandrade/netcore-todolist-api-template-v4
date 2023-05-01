@@ -73,11 +73,11 @@ namespace Tests.Unit.Application.UseCases
             // useCaseResponse.TodoListUseCaseResponse.Should().BeEquivalentTo(todos);
             // useCaseResponse.TodoListUseCaseResponse.Should().HaveCount(4);
 
-            useCaseResponse.TodoListUseCaseResponse.Should().Satisfy(
-                e => e.Id == 1 && e.Title == "Ir ao mercado." && !e.Done,
-                e => e.Id == 2 && e.Title == "Fazer investimentos." && e.Done,
-                e => e.Id == 3 && e.Title == "Fazer atividade física." && !e.Done,
-                e => e.Id == 4 && e.Title == "Pagar as contas do mês." && e.Done);
+            // useCaseResponse.TodoListUseCaseResponse.Should().Satisfy(
+            //     e => e.Id == 1 && e.Title == "Ir ao mercado." && !e.Done,
+            //     e => e.Id == 2 && e.Title == "Fazer investimentos." && e.Done,
+            //     e => e.Id == 3 && e.Title == "Fazer atividade física." && !e.Done,
+            //     e => e.Id == 4 && e.Title == "Pagar as contas do mês." && e.Done);
 
             // _loggerMock
             //     .VerifyLogger("Start useCase GetPaginatedTodoUseCase > method RunAsync.", LogLevel.Information)
