@@ -64,7 +64,7 @@ namespace Infra.Persistence.Repositories
                 int totalRecords = await _connection.ExecuteScalarAsync<int>(query);
 
                 _logger.LogInformation(
-                    "Finishes successfully repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetAllPaginatedAsync));
+                    "Finishes successfully repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetPaginatedTodoListsAsync));
 
                 return totalRecords;
             }
@@ -74,11 +74,11 @@ namespace Infra.Persistence.Repositories
             }
         }
 
-        public async Task<IEnumerable<Todo>> GetAllPaginatedAsync(int pageSize, int pageNumber)
+        public async Task<IEnumerable<Todo>> GetPaginatedTodoListsAsync(int pageSize, int pageNumber)
         {
             try
             {
-                _logger.LogInformation(message: "Start repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetAllPaginatedAsync));
+                _logger.LogInformation(message: "Start repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetPaginatedTodoListsAsync));
 
                 string query = @"SELECT Id, Title, Done 
                                 FROM Todo 
@@ -95,7 +95,7 @@ namespace Infra.Persistence.Repositories
                     Offset = offset
                 });
 
-                _logger.LogInformation("Finishes successfully repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetAllPaginatedAsync));
+                _logger.LogInformation("Finishes successfully repository {0} > method {1}.", nameof(TodoRepositoryAsync), nameof(GetPaginatedTodoListsAsync));
 
                 return entities;
             }

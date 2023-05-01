@@ -3,7 +3,7 @@ using Core.Application.Dtos.Responses;
 
 namespace Core.Application.Interfaces.UseCases
 {
-    public interface IGetAllTodoPaginatedUseCase : IUseCase<PaginationUseCaseRequest, GetAllTodoPaginatedUseCaseResponse>
+    public interface IGetPaginatedTodoListsUseCase : IUseCase<PaginationUseCaseRequest, GetPaginatedTodoListsUseCaseResponse>
     {
     }
 }
