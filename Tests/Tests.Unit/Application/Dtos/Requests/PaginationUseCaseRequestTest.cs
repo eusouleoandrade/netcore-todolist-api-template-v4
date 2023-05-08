@@ -9,6 +9,11 @@ namespace Tests.Unit.Application.Dtos.Requests
         private const int defaultPageSize = 10;
         private const int initialPagination = 1;
 
+        /// <summary>
+        /// Should execute successfully
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
         [Theory(DisplayName = "Should execute successfully")]
         [InlineData(1, 20)]
         [InlineData(2, 49)]
@@ -29,7 +34,12 @@ namespace Tests.Unit.Application.Dtos.Requests
             request.PageSize.Should().Be(pageSize);
         }
 
-        [Theory(DisplayName = "Should execute successfully")]
+        /// <summary>
+        /// Should execute successfully when the maximum page size is larger than configured
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        [Theory(DisplayName = "Should execute successfully when the maximum page size is larger than configured")]
         [InlineData(1, 51)]
         [InlineData(2, 60)]
         [InlineData(3, 100)]
@@ -50,7 +60,12 @@ namespace Tests.Unit.Application.Dtos.Requests
             request.PageSize.Should().NotBe(pageSize);
         }
 
-        [Theory]
+        /// <summary>
+        /// Should execute successfully when the page number is invalid
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        [Theory(DisplayName = "Should execute successfully when the page number is invalid")]
         [InlineData(0, 20)]
         [InlineData(-1, 20)]
         [InlineData(-10, 20)]
@@ -71,7 +86,12 @@ namespace Tests.Unit.Application.Dtos.Requests
             request.PageSize.Should().Be(pageSize);
         }
 
-        [Theory]
+        /// <summary>
+        /// Should execute successfully when the pageSize is invalid
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        [Theory(DisplayName = "Should execute successfully when the pageSize is invalid")]
         [InlineData(1, -1)]
         [InlineData(2, -10)]
         [InlineData(3, 0)]

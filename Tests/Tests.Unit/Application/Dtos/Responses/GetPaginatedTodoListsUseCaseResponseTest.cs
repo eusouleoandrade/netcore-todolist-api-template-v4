@@ -5,7 +5,10 @@ namespace Tests.Unit.Application.Dtos.Responses
 {
     public class GetPaginatedTodoListsUseCaseResponseTest
     {
-        [Fact]
+        /// <summary>
+        /// Should execute successfully
+        /// </summary>
+        [Fact(DisplayName = "Should execute successfully")]
         public void ShouldExecuteSuccessfully()
         {
             // Arranje
