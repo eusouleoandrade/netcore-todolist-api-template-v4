@@ -7,6 +7,7 @@ using Core.Domain.Entities;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Tests.Unit.Extensions;
 
 namespace Tests.Unit.Application.UseCases
 {
@@ -45,15 +46,18 @@ namespace Tests.Unit.Application.UseCases
                 new Todo(4, "Pagar as contas do mês.", true)
             };
 
-            _todoRepositoryAsync.Setup(x => x.GetAllAsync()).ReturnsAsync(todos);
-
-            var useCase = new GetPaginatedTodoListsUseCase(_todoRepositoryAsync.Object, _mapperMock, _loggerMock.Object);
-
             int pageNumber = 1;
             int pageSize = 10;
             int maxPageSize = 50;
             int defaultPageSize = 10;
             int initialPagination = 1;
+            int totalRecords = todos.Count();
+            int totalPages = 1;
+
+            _todoRepositoryAsync.Setup(x => x.GetPaginatedTodoListsAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(todos);
+            _todoRepositoryAsync.Setup(x => x.GetTotalRecordsAsync()).ReturnsAsync(totalRecords);
+
+            var useCase = new GetPaginatedTodoListsUseCase(_todoRepositoryAsync.Object, _mapperMock, _loggerMock.Object);
 
             var useCaseRequest = new PaginationUseCaseRequest(
                 pageNumber
@@ -69,19 +73,20 @@ namespace Tests.Unit.Application.UseCases
             useCaseResponse.Should().NotBeNull();
             useCaseResponse.PageNumber.Should().Be(pageNumber);
             useCaseResponse.PageSize.Should().Be(pageSize);
-            // useCaseResponse.TotalRecords.Should().Be(pageNumber);
-            // useCaseResponse.TodoListUseCaseResponse.Should().BeEquivalentTo(todos);
-            // useCaseResponse.TodoListUseCaseResponse.Should().HaveCount(4);
+            useCaseResponse.TotalRecords.Should().Be(totalRecords);
+            useCaseResponse.TotalPages.Should().Be(totalPages);
+            useCaseResponse.TodoListUseCaseResponse.Should().BeEquivalentTo(todos);
+            useCaseResponse.TodoListUseCaseResponse.Should().HaveCount(totalRecords);
 
-            // useCaseResponse.TodoListUseCaseResponse.Should().Satisfy(
-            //     e => e.Id == 1 && e.Title == "Ir ao mercado." && !e.Done,
-            //     e => e.Id == 2 && e.Title == "Fazer investimentos." && e.Done,
-            //     e => e.Id == 3 && e.Title == "Fazer atividade física." && !e.Done,
-            //     e => e.Id == 4 && e.Title == "Pagar as contas do mês." && e.Done);
+            useCaseResponse.TodoListUseCaseResponse.Should().Satisfy(
+                e => e.Id == 1 && e.Title == "Ir ao mercado." && !e.Done,
+                e => e.Id == 2 && e.Title == "Fazer investimentos." && e.Done,
+                e => e.Id == 3 && e.Title == "Fazer atividade física." && !e.Done,
+                e => e.Id == 4 && e.Title == "Pagar as contas do mês." && e.Done);
 
-            // _loggerMock
-            //     .VerifyLogger("Start useCase GetPaginatedTodoUseCase > method RunAsync.", LogLevel.Information)
-            //     .VerifyLogger("Finishes successfully useCase GetPaginatedTodoUseCase > method RunAsync.", LogLevel.Information);
+            _loggerMock
+                .VerifyLogger("Start useCase GetPaginatedTodoListsUseCase > method RunAsync.", LogLevel.Information)
+                .VerifyLogger("Finishes successfully useCase GetPaginatedTodoListsUseCase > method RunAsync.", LogLevel.Information);
         }
     }
 }

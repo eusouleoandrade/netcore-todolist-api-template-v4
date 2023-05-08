@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Core.Application.Dtos.Wrappers
 {
+    [ExcludeFromCodeCoverage]
     public class PagedResponse<TData> : Response<TData>
         where TData : class
     {
