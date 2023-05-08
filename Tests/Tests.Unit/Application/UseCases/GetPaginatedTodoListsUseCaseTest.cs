@@ -71,10 +71,12 @@ namespace Tests.Unit.Application.UseCases
 
             // Assert
             useCaseResponse.Should().NotBeNull();
+            
             useCaseResponse.PageNumber.Should().Be(pageNumber);
             useCaseResponse.PageSize.Should().Be(pageSize);
             useCaseResponse.TotalRecords.Should().Be(totalRecords);
             useCaseResponse.TotalPages.Should().Be(totalPages);
+            
             useCaseResponse.TodoListUseCaseResponse.Should().BeEquivalentTo(todos);
             useCaseResponse.TodoListUseCaseResponse.Should().HaveCount(totalRecords);
 
