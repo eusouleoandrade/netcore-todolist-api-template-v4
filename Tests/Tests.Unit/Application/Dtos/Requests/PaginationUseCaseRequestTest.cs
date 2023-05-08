@@ -11,7 +11,7 @@ namespace Tests.Unit.Application.Dtos.Requests
 
         [Theory(DisplayName = "Should execute successfully")]
         [InlineData(1, 20)]
-        [InlineData(2, 30)]
+        [InlineData(2, 49)]
         [InlineData(3, 50)]
         public void ShouldExecuteSuccessfully(int pageNumber, int pageSize)
         {

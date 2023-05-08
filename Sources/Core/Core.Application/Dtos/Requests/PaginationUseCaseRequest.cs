@@ -14,8 +14,8 @@ namespace Core.Application.Dtos.Requests
             , int initialPagination)
         {
             PageNumber = pageNumber <= decimal.Zero ? initialPagination : pageNumber;
-            
-            PageSize = pageSize <= maxPageSize ? pageSize : maxPageSize;
+
+            PageSize = pageSize > maxPageSize ? maxPageSize : pageSize;
 
             PageSize = PageSize <= decimal.Zero ? defaultPageSize : PageSize;
         }
