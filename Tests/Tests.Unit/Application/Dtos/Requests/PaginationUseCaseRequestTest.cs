@@ -20,8 +20,11 @@ namespace Tests.Unit.Application.Dtos.Requests
         [InlineData(3, 50)]
         public void ShouldExecuteSuccessfully(int pageNumber, int pageSize)
         {
+            // Arranje
+            PaginationUseCaseRequest request;
+
             // Act
-            var request = new PaginationUseCaseRequest(
+            request = new PaginationUseCaseRequest(
                 pageNumber
                 , pageSize
                 , maxPageSize
@@ -45,8 +48,11 @@ namespace Tests.Unit.Application.Dtos.Requests
         [InlineData(3, 100)]
         public void ShouldExecuteSuccessfully_WhenTheMaximumPageSizeIsLargerThanConfigured(int pageNumber, int pageSize)
         {
+            // Arranje
+            PaginationUseCaseRequest request;
+
             // Act
-            var request = new PaginationUseCaseRequest(
+            request = new PaginationUseCaseRequest(
                 pageNumber
                 , pageSize
                 , maxPageSize
@@ -71,8 +77,11 @@ namespace Tests.Unit.Application.Dtos.Requests
         [InlineData(-10, 20)]
         public void ShouldExecuteSuccessfully_WhenThePageNumberIsInvalid(int pageNumber, int pageSize)
         {
+            // Arranje
+            PaginationUseCaseRequest request;
+
             // Act
-            var request = new PaginationUseCaseRequest(
+            request = new PaginationUseCaseRequest(
                 pageNumber
                 , pageSize
                 , maxPageSize
@@ -97,8 +106,11 @@ namespace Tests.Unit.Application.Dtos.Requests
         [InlineData(3, 0)]
         public void ShouldExecuteSuccessfully_WhenThePageSizeIsInvalid(int pageNumber, int pageSize)
         {
+            // Arranje
+            PaginationUseCaseRequest request;
+
             // Act
-            var request = new PaginationUseCaseRequest(
+            request = new PaginationUseCaseRequest(
                 pageNumber
                 , pageSize
                 , maxPageSize
