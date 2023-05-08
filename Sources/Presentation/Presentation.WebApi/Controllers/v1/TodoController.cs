@@ -54,7 +54,7 @@ namespace Presentation.WebApi.Controllers.v1
                 , pageSize
                 , _config.GetValue<int>("PaginationSettings:MaxPageSize")
                 , _config.GetValue<int>("PaginationSettings:DefaultPageSize")
-                , _config.GetValue<int>("PaginationSettings:DefaultPageSize"));
+                , _config.GetValue<int>("PaginationSettings:InitialPagination"));
 
             var useCaseResponse = await getPaginatedTodoListsUseCase.RunAsync(paginationUseCaseRequest);
 
